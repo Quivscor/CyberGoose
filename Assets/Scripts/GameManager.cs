@@ -80,7 +80,7 @@ public class GameManager : MonoBehaviour
     public int GetNextMiniGame()
     {
         //Assume miniGameIndex is sorted and build indexes are next to each other.
-        return Random.Range(miniGameIndex[0], miniGameIndex[miniGameIndex.Count - 1]);
+        return Random.Range(miniGameIndex[0], miniGameIndex[miniGameIndex.Count - 1] + 1);
     }
 
     ///<summary>

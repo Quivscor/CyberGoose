@@ -8,4 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/MiniGameTemplate.unity
+    guid: 03623e7e6085f6a498bb12e9ec506d03
+  - enabled: 1
+    path: Assets/Scenes/EatFoodMiniGame.unity
+    guid: ebbcd6b9a27e55a479b50c98de7a86af
   m_configObjects: {}

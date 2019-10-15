@@ -10,11 +10,14 @@ public class MiniGameManager : MonoBehaviour
     [SerializeField]
     protected new string name;
 
+    [SerializeField]
+    private bool timerIsWinCondition;
+
     protected virtual void Awake()
     {
         Debug.Log("Playing mini game: " + this.name);
 
-        SetTimerCondition(false);
+        SetTimerCondition(timerIsWinCondition);
     }
 
     ///<summary>
@@ -33,6 +36,7 @@ public class MiniGameManager : MonoBehaviour
     ///</summary>
     public virtual void OnDefeat()
     {
+        Debug.Log("Defeat!");
         GameManager.Instance.LoseMiniGame();
     }
 
@@ -41,6 +45,7 @@ public class MiniGameManager : MonoBehaviour
     ///</summary>
     public virtual void OnWin()
     {
+        Debug.Log("Victory!");
         GameManager.Instance.WinMiniGame();
     }
 
