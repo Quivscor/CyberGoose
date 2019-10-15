@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(this);
             ResetGame();
         }
+        else
+            Destroy(this.gameObject);
 
         if (miniGameIndex == null)
             FillMiniGameList();
