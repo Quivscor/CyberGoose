@@ -15,6 +15,8 @@ public class Timer : MonoBehaviour
     public delegate void EndCondition();
     public event EndCondition OnTimeOut;
 
+    private bool timedOut = false;
+
     private void Start()
     {
         image = GetComponent<Image>();
@@ -26,8 +28,8 @@ public class Timer : MonoBehaviour
     ///</summary>
     public void InitTimer(int gamesWon)
     {
-        maxTime = FindObjectOfType<MiniGameManager>().GetComponent<MiniGameManager>().GetMiniGameTime() 
-            / 1 + Mathf.Log10(gamesWon + 1);
+        maxTime = FindObjectOfType<MiniGameManager>().GetComponent<MiniGameManager>().GetMiniGameTime()
+            - (Mathf.Log10(gamesWon + 1) / 0.7f);
         currentTime = maxTime;
     }
 
@@ -38,8 +40,12 @@ public class Timer : MonoBehaviour
     {
         currentTime -= Time.fixedDeltaTime;
 
-        if (currentTime <= 0)
+        if (currentTime <= 0 && !timedOut)
+        {
+            timedOut = true;
             OnTimeOut?.Invoke();
+            
+        }
     }
 
     ///<summary>

@@ -11,13 +11,30 @@ public class MiniGameManager : MonoBehaviour
     protected new string name;
 
     [SerializeField]
-    private bool timerIsWinCondition;
+    protected bool timerIsWinCondition;
+
+    private float timeBeforeSceneChange = 2f;
+    private bool countdownToNextScene = false;
+
+    public delegate void NextScene();
+    public event NextScene LoadNextScene;
 
     protected virtual void Awake()
     {
         Debug.Log("Playing mini game: " + this.name);
+        LoadNextScene = null;
 
         SetTimerCondition(timerIsWinCondition);
+    }
+
+    protected virtual void FixedUpdate()
+    {
+        if(countdownToNextScene)
+        {
+            timeBeforeSceneChange -= Time.fixedDeltaTime;
+            if (timeBeforeSceneChange <= 0)
+                LoadNextScene?.Invoke();
+        }
     }
 
     ///<summary>
@@ -36,8 +53,11 @@ public class MiniGameManager : MonoBehaviour
     ///</summary>
     public virtual void OnDefeat()
     {
+        if (countdownToNextScene)
+            return;
         Debug.Log("Defeat!");
-        GameManager.Instance.LoseMiniGame();
+        LoadNextScene += GameManager.Instance.LoseMiniGame;
+        countdownToNextScene = true;
     }
 
     ///<summary>
@@ -45,8 +65,11 @@ public class MiniGameManager : MonoBehaviour
     ///</summary>
     public virtual void OnWin()
     {
+        if (countdownToNextScene)
+            return;
         Debug.Log("Victory!");
-        GameManager.Instance.WinMiniGame();
+        LoadNextScene += GameManager.Instance.WinMiniGame;
+        countdownToNextScene = true;
     }
 
     ///<summary>

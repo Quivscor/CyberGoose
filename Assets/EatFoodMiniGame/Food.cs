@@ -6,6 +6,8 @@ public class Food : MonoBehaviour
 {
     public bool goodFood;
 
+    public GameObject particleEffect;
+
     #region Arc Trajectory Data
     protected Vector3 startPosition;
     protected Vector3 initialVelocity;
@@ -18,38 +20,26 @@ public class Food : MonoBehaviour
 
     private void Start()
     {
-        startPosition = this.transform.position;
-        initialVelocity = InitialVelocity();
-        if (float.IsNaN(initialVelocity.x))
-        {
-            initialVelocity = Vector3.zero;
-            Debug.LogError("Target is higher than the archer's y position + projectile height. Spawn prevented.");
-        }
+        GetComponent<Rigidbody2D>().velocity = CalculateVelocity(GameObject.Find("Mouth").transform.position, this.transform.position, 2);
     }
 
-    protected Vector3 InitialVelocity()
+    Vector3 CalculateVelocity(Vector3 target, Vector3 origin, float time)
     {
-        Vector3 target = GameObject.Find("Mouth").transform.position;
+        Vector3 distance = target - origin;
+        Vector3 distanceX = distance;
+        distanceX.y = 0;
 
-        float displacementY = target.y - startPosition.y;
-        float displacementX = target.x - startPosition.x;
-        time = Mathf.Sqrt(-2 * height / gravity) + Mathf.Sqrt(2 * (displacementY - height) / gravity);
-        Vector3 velocityY = Vector3.up * Mathf.Sqrt(-2 * gravity * height);
-        Vector3 velocityX = new Vector3(displacementX / time, 0, 0);
-        return velocityX + velocityY;
-    }
+        float Sy = distance.y;
+        float Sx = distanceX.magnitude;
 
-    protected Vector3 Position(float time)
-    {
-        float x = startPosition.x + initialVelocity.x * time;
-        float y = startPosition.y + initialVelocity.y * time + (gravity / 2) * time * time;
-        return new Vector3(x, y);
-    }
+        float Vx = Sx / time;
+        float Vy = Sy / time + 0.5f * Mathf.Abs(Physics.gravity.y) * time;
 
-    protected void FixedUpdate()
-    {
-        currentTime += Time.fixedDeltaTime;
-        transform.SetPositionAndRotation(Position(currentTime), Quaternion.identity);
+        Vector3 result = distanceX.normalized;
+        result *= Vx;
+        result.y = Vy;
+
+        return result;
     }
 
     protected void OnTriggerEnter2D(Collider2D collision)
@@ -62,6 +52,12 @@ public class Food : MonoBehaviour
                 (player.state == MouthController.MouthState.Closed && goodFood))
             {
                 GameObject.Find("MiniGameManager").GetComponent<MiniGameManager>().OnDefeat();
+            }
+
+            if(player.state == MouthController.MouthState.Open)
+            {
+                Instantiate<GameObject>(particleEffect, this.transform.position - Vector3.up, Quaternion.identity);
+                Destroy(this.gameObject);
             }
         }
     }

@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 3985454020552347123}
   - component: {fileID: 3985454020552347122}
   - component: {fileID: 3985454020552347121}
+  - component: {fileID: 8250843759844217618}
+  - component: {fileID: 1170965209749551137}
   m_Layer: 0
   m_Name: Candy
   m_TagString: Untagged
@@ -28,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 3985454020552347125}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.14, y: -0.05, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -70,8 +72,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: a70297fa37fc8094b95e4c5b9f56818d, type: 3}
+  m_SortingOrder: 10
+  m_Sprite: {fileID: 3046544090647025007, guid: 2eeec52cbc225c84c8bdcd6b3492f785,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -95,9 +98,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   goodFood: 0
+  particleEffect: {fileID: 2091021678018269782, guid: d8d593aebe501394dbdcf92f5e9afa62,
+    type: 3}
   height: 5
   gravity: -10
-  time: 10
+  time: 3
 --- !u!58 &3985454020552347121
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -113,4 +118,37 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.7
+  m_Radius: 0.25
+--- !u!50 &8250843759844217618
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3985454020552347125}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!114 &1170965209749551137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3985454020552347125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0309823c171a99d4cad97914ae9a2060, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
