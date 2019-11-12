@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     //Amount of scenes in the project that ARE NOT mini games
-    public static readonly int NonMiniGameScenes = 1;
+    public static readonly int NonMiniGameScenes = 2;
     //Amount of starting lives
     public static readonly int StartingLives = 3;
 
@@ -54,21 +54,30 @@ public class GameManager : MonoBehaviour
     public void WinMiniGame()
     {
         Score.gamesWon++;
+        Score.previousPoints = Score.points;
         Score.points += 10 * Score.gamesWon;
 
         SceneManager.LoadScene(GetNextMiniGame());
     }
 
     ///<summary>
-    ///Handles loss in a mini game. Decrements 1 life from the Lives variable
+    ///Handles loss in a mini game.
     ///</summary>
     public void LoseMiniGame()
     {
-        Lives--;
+        Score.previousPoints = Score.points;
         if (CheckGameOver())
             GameOver();
         else
             SceneManager.LoadScene(GetNextMiniGame());
+    }
+
+    /// <summary>
+    /// Decrements 1 life from the Lives variable
+    /// </summary>
+    public void LoseLife()
+    {
+        Lives--;
     }
 
     ///<summary>
@@ -97,9 +106,9 @@ public class GameManager : MonoBehaviour
     private void GameOver()
     {
         //Serialize score maybe?
+        ScoreSerializer.SaveHighScore(Score);
         Score = null;
-        Application.Quit();
-
+        SceneManager.LoadScene("MainMenuScene");
         //TODO: Return to main menu.
     }
 
