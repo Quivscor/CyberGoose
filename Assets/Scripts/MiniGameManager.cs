@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MiniGameManager : MonoBehaviour
 {
@@ -10,11 +11,34 @@ public class MiniGameManager : MonoBehaviour
     [SerializeField]
     protected new string name;
 
+    [SerializeField]
+    protected bool timerIsWinCondition;
+
+    private float timeBeforeSceneChange = 2f;
+    private bool countdownToNextScene = false;
+
+    public delegate void NextScene();
+    public event NextScene LoadNextScene;
+
+    private Scene scoreScene;
+
     protected virtual void Awake()
     {
         Debug.Log("Playing mini game: " + this.name);
+        LoadNextScene = null;
 
-        SetTimerCondition(false);
+        SetTimerCondition(timerIsWinCondition);
+        scoreScene = SceneManager.GetSceneByName("ScoreScene");
+    }
+
+    protected virtual void FixedUpdate()
+    {
+        if(countdownToNextScene)
+        {
+            timeBeforeSceneChange -= Time.fixedDeltaTime;
+            if (timeBeforeSceneChange <= 0)
+                LoadNextScene?.Invoke();
+        }
     }
 
     ///<summary>
@@ -33,7 +57,13 @@ public class MiniGameManager : MonoBehaviour
     ///</summary>
     public virtual void OnDefeat()
     {
-        GameManager.Instance.LoseMiniGame();
+        if (countdownToNextScene)
+            return;
+        Debug.Log("Defeat!");
+        GameManager.Instance.LoseLife();
+        LoadNextScene += GameManager.Instance.LoseMiniGame;
+        countdownToNextScene = true;
+        StartCoroutine(DisplayScoreScene());
     }
 
     ///<summary>
@@ -41,7 +71,12 @@ public class MiniGameManager : MonoBehaviour
     ///</summary>
     public virtual void OnWin()
     {
-        GameManager.Instance.WinMiniGame();
+        if (countdownToNextScene)
+            return;
+        Debug.Log("Victory!");
+        LoadNextScene += GameManager.Instance.WinMiniGame;
+        countdownToNextScene = true;
+        StartCoroutine(DisplayScoreScene());
     }
 
     ///<summary>
@@ -50,5 +85,12 @@ public class MiniGameManager : MonoBehaviour
     public float GetMiniGameTime()
     {
         return miniGameTime;
+    }
+
+    IEnumerator DisplayScoreScene()
+    {
+        SceneManager.LoadScene("ScoreScene", LoadSceneMode.Additive);
+        yield return new WaitForSeconds(2f);
+        SceneManager.UnloadSceneAsync("ScoreScene");
     }
 }
