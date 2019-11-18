@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
 
         if (miniGameIndex == null)
             FillMiniGameList();
+
     }
 
     ///<summary>
