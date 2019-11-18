@@ -11,13 +11,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ScoreScene.unity
     guid: 291441c1e52ca364497156b7d02e9941
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MiniGameTemplate.unity
     guid: 03623e7e6085f6a498bb12e9ec506d03
   - enabled: 1
     path: Assets/Scenes/EatFoodMiniGame.unity
     guid: ebbcd6b9a27e55a479b50c98de7a86af
-  - enabled: 1
-    path: Assets/Scenes/BuildingMiniGame.unity
-    guid: 6ae4f8c8ac0c3e94fbbb5d911843b5c2
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   m_configObjects: {}
