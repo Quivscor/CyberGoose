@@ -6,8 +6,8 @@ public class GyroPlatform : MonoBehaviour
 {
     struct RandOff
     {
-        
-       public Rigidbody2D rb2d;
+
+        public Rigidbody2D rb2d;
         public float offset;
 
         public RandOff(Rigidbody2D rb2d, float offset)
@@ -16,7 +16,8 @@ public class GyroPlatform : MonoBehaviour
             this.offset = offset;
         }
     }
-    // Start is called before the first frame update
+    float used_time;
+    bool flag = true;
     Gyroscope m_Gyro;
     float _gyro_offset;
     List<RandOff> bodies = new List<RandOff>();
@@ -27,26 +28,47 @@ public class GyroPlatform : MonoBehaviour
         foreach (var item in rigdigs)
         {
             bodies.Add(new RandOff(item, item.position.x));
-        }     
+        }
         m_Gyro = Input.gyro;
         m_Gyro.enabled = true;
+        Debug.Log(m_Gyro.attitude.z);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        foreach (RandOff item in bodies)
+
+        if (flag)
         {
-            Vector2 newPosition = Vector2.MoveTowards(item.rb2d.position, new Vector2(m_Gyro.attitude.z*-15 + item.offset,0), float.MaxValue);
-            item.rb2d.MovePosition(newPosition);
+            used_time += Time.deltaTime;
+            _gyro_offset = m_Gyro.attitude.eulerAngles.z;
+            foreach (RandOff item in bodies)
+            {
+                Vector2 newPosition = Vector2.MoveTowards(new Vector2(item.rb2d.position.x, 0), new Vector2((m_Gyro.attitude.eulerAngles.z - _gyro_offset) *-0.3f + item.offset, 0), float.MaxValue);
+                item.rb2d.MovePosition(newPosition);
+            }
+            if (used_time > 2)
+            {
+                flag = false;
+                
+            }
         }
+        else
+        {
+            foreach (RandOff item in bodies)
+            {
+                Vector2 newPosition = Vector2.MoveTowards(new Vector2(item.rb2d.position.x,0), new Vector2((m_Gyro.attitude.eulerAngles.z - _gyro_offset) * -0.3f + item.offset, 0), float.MaxValue);
+                item.rb2d.MovePosition(newPosition);
+            }
+        }
+
     }
 
     void OnGUI()
     {
+        var euler = m_Gyro.attitude.eulerAngles;
         GUI.Label(new Rect(100, 300, 800, 800), "Gyro rotation rate " + m_Gyro.rotationRate);
-        GUI.Label(new Rect(100, 350, 800, 800), "Gyro x" + m_Gyro.attitude.x);
-        GUI.Label(new Rect(100, 400, 800, 800), "Gyro y" + m_Gyro.attitude.y    );
-        GUI.Label(new Rect(100, 450, 800, 800), "Gyro z" + m_Gyro.attitude.z);
+        GUI.Label(new Rect(100, 350, 800, 800), "Gyro x" + euler.x);
+        GUI.Label(new Rect(100, 400, 800, 800), "Gyro y" + euler.y);
+        GUI.Label(new Rect(100, 450, 800, 800), "Gyro z" + euler.z);
     }
 }

@@ -7,9 +7,10 @@ public class LiquidSpammer : MonoBehaviour
     public GameObject liquid;
     public float respawn_speed=1;
     public float used_time;
+    public float time_offset=1;
     void Start()
     {
-        
+        used_time -= time_offset;
     }
 
     // Update is called once per frame
