@@ -74,6 +74,7 @@ public class MiniGameManager : MonoBehaviour
         if (countdownToNextScene)
             return;
         Debug.Log("Victory!");
+        GameManager.Instance.GainPoints();
         LoadNextScene += GameManager.Instance.WinMiniGame;
         countdownToNextScene = true;
         StartCoroutine(DisplayScoreScene());
