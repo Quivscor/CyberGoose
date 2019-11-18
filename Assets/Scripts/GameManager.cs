@@ -53,10 +53,6 @@ public class GameManager : MonoBehaviour
     ///</summary>
     public void WinMiniGame()
     {
-        Score.gamesWon++;
-        Score.previousPoints = Score.points;
-        Score.points += 10 * Score.gamesWon;
-
         SceneManager.LoadScene(GetNextMiniGame());
     }
 
@@ -65,7 +61,6 @@ public class GameManager : MonoBehaviour
     ///</summary>
     public void LoseMiniGame()
     {
-        Score.previousPoints = Score.points;
         if (CheckGameOver())
             GameOver();
         else
@@ -73,11 +68,22 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Decrements 1 life from the Lives variable
+    /// Decrements 1 life from the Lives variable.
     /// </summary>
     public void LoseLife()
     {
+        Score.previousPoints = Score.points;
         Lives--;
+    }
+
+    /// <summary>
+    /// Increases score by adding points, incrementing amount of games won.
+    /// </summary>
+    public void GainPoints()
+    {
+        Score.gamesWon += 1;
+        Score.previousPoints = Score.points;
+        Score.points += 1 * Score.gamesWon;
     }
 
     ///<summary>
