@@ -31,11 +31,11 @@ public class MiniGameManager : MonoBehaviour
         scoreScene = SceneManager.GetSceneByName("ScoreScene");
     }
 
-    protected virtual void FixedUpdate()
+    protected virtual void Update()
     {
         if(countdownToNextScene)
         {
-            timeBeforeSceneChange -= Time.fixedDeltaTime;
+            timeBeforeSceneChange -= Time.deltaTime;
             if (timeBeforeSceneChange <= 0)
                 LoadNextScene?.Invoke();
         }
