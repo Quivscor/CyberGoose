@@ -7,6 +7,7 @@ public class PopupController : MonoBehaviour
 {
     [SerializeField]
     private int popupCount;
+    public GameObject canvasReference;
 
     public GameObject popupPrefab;
 
@@ -20,7 +21,9 @@ public class PopupController : MonoBehaviour
         for(int i = 0; i < popupCount; i++)
         {
             Vector3 position = new Vector3(Random.Range(-1.5f, 1.0f), Random.Range(-3.0f, 0f));
-            GameObject popup = GameObject.Instantiate<GameObject>(popupPrefab, position, Quaternion.identity, GameObject.Find("Canvas").gameObject.transform);
+            GameObject popup = GameObject.Instantiate<GameObject>(popupPrefab, position, Quaternion.identity);
+            popup.transform.SetParent(canvasReference.transform, false);
+            popup.transform.position = position;
             popup.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = catchphrases[Random.Range(0, catchphrases.Count)];
             popupTracker.Add(popup);
         }
