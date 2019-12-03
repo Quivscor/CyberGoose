@@ -95,8 +95,14 @@ public class GameManager : MonoBehaviour
     /// </returns>
     public int GetNextMiniGame()
     {
+        var thisMiniGameID = SceneManager.GetActiveScene().buildIndex;
+        var randomMiniGameID = Random.Range(miniGameIndex[0], miniGameIndex[miniGameIndex.Count - 1] + 1);
+        while(randomMiniGameID == thisMiniGameID)
+        {
+            randomMiniGameID = Random.Range(miniGameIndex[0], miniGameIndex[miniGameIndex.Count - 1] + 1);
+        }
         //Assume miniGameIndex is sorted and build indexes are next to each other.
-        return Random.Range(miniGameIndex[0], miniGameIndex[miniGameIndex.Count - 1] + 1);
+        return randomMiniGameID;
     }
 
     ///<summary>
