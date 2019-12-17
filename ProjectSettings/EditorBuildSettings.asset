@@ -12,9 +12,6 @@ EditorBuildSettings:
     path: Assets/Scenes/ScoreScene.unity
     guid: 291441c1e52ca364497156b7d02e9941
   - enabled: 0
-    path: Assets/Scenes/MainMenuScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 0
     path: Assets/Scenes/MiniGameTemplate.unity
     guid: 03623e7e6085f6a498bb12e9ec506d03
   - enabled: 1
@@ -29,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Chemistry.unity
     guid: 66fa8019d1927e54190a939e35c16f69
+  - enabled: 1
+    path: Assets/Scenes/ElectronicsGame.unity
+    guid: 1c453bbf6f5c6004e897e89516edea70
   m_configObjects: {}
